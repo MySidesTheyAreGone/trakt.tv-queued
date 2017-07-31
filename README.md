@@ -35,26 +35,27 @@ let trakt = new Trakt({
 
 trakt.cached.debug(true)
 trakt.queued.debug(true)
+trakt.cached.ttl(20)
 
 async function test () {
   try {
     await Promise.all([
-      trakt.queued.ttl(15).seasons.season({id: 'game-of-thrones', season: 4}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Game of Thrones" episodes fetched')),
-      trakt.queued.ttl(15).seasons.season({id: 'archer', season: 2}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Archer" episodes fetched')),
-      trakt.queued.ttl(15).seasons.season({id: 'humans', season: 1}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Humans" episodes fetched')),
-      trakt.queued.ttl(15).seasons.season({id: 'westworld', season: 1}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Westworld" episodes fetched')),
-      trakt.queued.ttl(15).seasons.season({id: 'the-expanse', season: 1}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "The Expanse" episodes fetched')),
-      trakt.queued.ttl(15).seasons.season({id: 'american-horror-story', season: 2}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "American Horror Story" episodes fetched')),
-      trakt.queued.ttl(15).seasons.season({id: 'penny-dreadful', season: 2}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Penny Dreadful" episodes fetched'))
+      trakt.queued.seasons.season({id: 'game-of-thrones', season: 4}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Game of Thrones" episodes fetched')),
+      trakt.queued.seasons.season({id: 'archer', season: 2}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Archer" episodes fetched')),
+      trakt.queued.seasons.season({id: 'humans', season: 1}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Humans" episodes fetched')),
+      trakt.queued.seasons.season({id: 'westworld', season: 1}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Westworld" episodes fetched')),
+      trakt.queued.seasons.season({id: 'the-expanse', season: 1}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "The Expanse" episodes fetched')),
+      trakt.queued.seasons.season({id: 'american-horror-story', season: 2}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "American Horror Story" episodes fetched')),
+      trakt.queued.seasons.season({id: 'penny-dreadful', season: 2}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Penny Dreadful" episodes fetched'))
     ])
     await Promise.all([
-      trakt.queued.ttl(15).seasons.season({id: 'game-of-thrones', season: 4}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Game of Thrones" episodes fetched')),
-      trakt.queued.ttl(15).seasons.season({id: 'archer', season: 2}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Archer" episodes fetched')),
-      trakt.queued.ttl(15).seasons.season({id: 'humans', season: 1}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Humans" episodes fetched')),
-      trakt.queued.ttl(15).seasons.season({id: 'westworld', season: 1}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Westworld" episodes fetched')),
-      trakt.queued.ttl(15).seasons.season({id: 'the-expanse', season: 1}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "The Expanse" episodes fetched')),
-      trakt.queued.ttl(15).seasons.season({id: 'american-horror-story', season: 2}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "American Horror Story" episodes fetched')),
-      trakt.queued.ttl(15).seasons.season({id: 'penny-dreadful', season: 2}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Penny Dreadful" episodes fetched'))
+      trakt.queued.seasons.season({id: 'game-of-thrones', season: 4}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Game of Thrones" episodes fetched')),
+      trakt.queued.seasons.season({id: 'archer', season: 2}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Archer" episodes fetched')),
+      trakt.queued.seasons.season({id: 'humans', season: 1}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Humans" episodes fetched')),
+      trakt.queued.seasons.season({id: 'westworld', season: 1}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Westworld" episodes fetched')),
+      trakt.queued.seasons.season({id: 'the-expanse', season: 1}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "The Expanse" episodes fetched')),
+      trakt.queued.seasons.season({id: 'american-horror-story', season: 2}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "American Horror Story" episodes fetched')),
+      trakt.queued.seasons.season({id: 'penny-dreadful', season: 2}).then((data) => console.log('API CALL COMPLETED: ' + data.length + ' "Penny Dreadful" episodes fetched'))
     ])
   }
   catch (e) {
