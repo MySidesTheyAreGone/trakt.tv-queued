@@ -7,8 +7,11 @@ If you pass the option `cached` = `true` then trakt.tv-queued will use trakt.tv-
 
 ## Setup:
 ```bash
-$ git clone https://github.com/MySidesTheyAreGone/queued.tv-cached.git
+$ git clone https://github.com/MySidesTheyAreGone/trakt.tv-queued.git
+$ git clone https://github.com/MySidesTheyAreGone/trakt.tv-cached.git
 $ cd trakt.tv-cached
+$ npm i
+$ cd ../trakt.tv-queued
 $ npm i
 ```
 
