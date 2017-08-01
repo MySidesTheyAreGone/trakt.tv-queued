@@ -303,7 +303,7 @@ trakt.tv-queued | 0 calls are still waiting in the queue
 
 ## LICENSE
 
-The MIT License (MIT) - author: Jean van Kasteel <vankasteelj@gmail.com>
+The MIT License (MIT) - author: MySidesTheyAreGone <mysidestheyaregone@protonmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
