@@ -75,30 +75,23 @@ function reconfigure (options) {
   config.concurrency = options.concurrency || 2
   config.delay = options.delay || 1
   config.cached = options.cached || false
-  if (config.cached && R.isNil(cached)) {
+  if (config.cached && R.isNil(cached) && !R.isNil(Trakt.cached)) {
     cached = Trakt.cached
   }
 }
 
-queued.debug = function (enabled) {
-  debugEnabled = enabled
+queued.enableDebug = function () {
+  debugEnabled = true
   return cached
 }
 
 queued.reconfigure = reconfigure
 
-queued.ttl = function (n) {
-  if (!R.isNil(cached)) {
-    cached.ttl(n)
-  }
-  return queued
-}
-
 queued._call = function (method, params) {
   _debug('method: ' + method.url + ', params: ' + R.toString(params))
-  if (config.cached) {
+  if (config.cached === true && !R.isNil(cached)) {
     _debug('forwarding to trakt.tv-cached...')
-    return cached._call(method, params, enqueue)
+    return cached._call(method, R.assoc('enqueue', enqueue, params))
   } else {
     return enqueue(() => Trakt._call(method, params))
   }
