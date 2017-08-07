@@ -52,6 +52,13 @@ console.log('API CALL COMPLETED: ' + data.length + ' "Game of Thrones" episodes 
 trakt.queued.reconfigure({concurrency: 4, delay: 1})
 ```
 
+You can shut down everything, clearing the queue completely, by calling the `shutdown` function:
+
+```js
+trakt.queued.shutdown()
+```
+
+This will empty the queue immediately. Any queued request will be rejected with a `ShutdownError`. You can tell it apart from any other Error from the `name` field, which is set to "ShutdownError", or by comparison with `trakt.queued.ShutdownError`. You app should probably just swallow it and maybe tell the user that a few pending requests have been canceled.
 
 ## Combining `queued` with `cached`
 
