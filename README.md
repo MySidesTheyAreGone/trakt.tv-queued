@@ -1,14 +1,61 @@
 # trakt.tv-queued
 
-Experimental plugin that automatically queues any call fired by the main module `trakt.tv`
+By using this plugin you can forget about rate-limiting your requests. Simply set a `concurrency` and `delay` and the plugin will take care of everything.
 
-At the moment it depends on any version of Node.js that supports async/await.
+Moreover, if you enable `trakt.tv-cached` the functionality of the two plugins can be combined.
 
-If you enable `trakt.tv-cached` too and pass the option `cached: true`, then `trakt.tv-queued` will use `trakt.tv-cached` to transparently cache any GET request.
+At the moment `trakt.tv-queued` depends on any version of Node.js that supports async/await.
 
-TODO: complete this README.md
 
-## Quick usage
+## Basic usage
+
+Install the plugin as a normal dependency:
+
+```js
+$ npm i trakt.tv-queued --save
+```
+
+When you create a trakt.tv instance, pass this plugin to the constructor and specify any options:
+
+```js
+let Trakt = require('trakt.tv')
+let trakt = new Trakt({
+  client_id: 'YYY',
+  client_secret: 'ZZZ',
+  plugins: {
+    queued: require('trakt.tv-queued')
+  },
+  options: {
+    queued: {
+      concurrency: 2,
+      delay: 1
+    }
+  }
+})
+```
+
+Make sure the plugin itself and its options are in a field called `queued`.
+
+`concurrency` sets how many calls can be in execution during the period defined by `delay` (in seconds). So, `concurrency: 2` and `delay: 1` means "no more than 2 calls at the same time in the space of 1 second". If an API call requires more than one second to complete, a new one will be fired as soon as it completes; if it requires only half a second, a half second delay will be added before firing the next call.
+
+At this time there's no way to set a timeout. If a call hangs, the queue will hang indefinitely as well. This should never happen.
+
+To use the plugin, simply add `queued.` before the method you would normally call directly on the main module:
+
+```js
+let data = await trakt.queued.seasons.season({id: 'game-of-thrones', season: 4})
+console.log('API CALL COMPLETED: ' + data.length + ' "Game of Thrones" episodes fetched'))
+```
+`concurrency` and `delay` can be reconfigured on the fly. This would increase concurrency to 4:
+
+```js
+trakt.queued.reconfigure({concurrency: 4, delay: 1})
+```
+
+
+## Combining `queued` with `cached`
+
+`trakt.tv-queued` and `trakt.tv-cached` are loosely coupled. To combine their functionality, enable them both and pass the option `cached` (set to `true`) to `queued`:
 
 ```js
 let Trakt = require('trakt.tv')
@@ -23,7 +70,7 @@ let trakt = new Trakt({
     queued: {
       concurrency: 2,
       delay: 1,
-      cached: true
+      cached: true // <-- this is important lol
     },
     cached: {
       defaultTTL: 20
@@ -32,28 +79,47 @@ let trakt = new Trakt({
 })
 ```
 
-`concurrency` sets how many calls can be in execution during the period defined by `delay` (in seconds). So, `concurrency: 2` and `delay: 1` means "no more than 2 calls at the same time in the space of 1 second".
+If you do this, any API call will hit the cache first; if the data is not cached, it will go in the queue and it will be executed - eventually; if the data is cached, it will be returned immediately as a resolved Promise without going into the queue.
 
-`cached` can only be `true` if the plugin `cached` has been enabled. If so, any API call will hit the cache first; if the data is not cached, it will go in the queue and it will be executed - eventually; if the data is cached, it will be returned immediately as a resolved Promise without going into the queue.
-
-At this time there's no way to set a timeout. If a call hangs, the queue will hang indefinitely as well.
-
-If `trakt.tv-cached` is enabled and `cached` set to `true` in `trakt.tv-queue` options, anything you do to `cached` will have an effect on `queued`. The `ttl` parameter that `cached` expects will also have the intended effect, of course.
-
-`concurrency`, `delay` and `cached` can be reconfigured on the fly:
+`cached` can be reconfigured on the fly just like `concurrency` and `delay`. This would turn the cache off and increase concurrency to 4:
 
 ```js
 trakt.queued.reconfigure({concurrency: 4, delay: 1, cached: false})
 ```
 
-`trakt.tv-queued` works similarly to `trakt.tv-cached`; you call the regular `trakt.tv` methods on the `queued` plugin:
+The `ttl` parameter that `cached` expects will have the intended effect in any call you make via either `queued` or `cached`.
 
 ```js
 trakt.cached.setDefaultTTL(40)
 let data = await trakt.queued.seasons.season({id: 'game-of-thrones', season: 4})
 console.log('API CALL COMPLETED: ' + data.length + ' "Game of Thrones" episodes fetched'))
+
+// the following call will complete almost immediately without going into the queue
+// because the data you need is already in the cache
+let data = await trakt.queued.seasons.season({id: 'game-of-thrones', season: 4})
+console.log('API CALL COMPLETED: ' + data.length + ' "Game of Thrones" episodes fetched'))
+
+// the following call will be queued and its result cached, but the TTL will be 0
+let data = await trakt.queued.seasons.season({id: 'penny-dreadful', season: 2, ttl: 0})
+console.log('API CALL COMPLETED: ' + data.length + ' "Penny Dreadful" episodes fetched'))
+
+// since the data fetched with the previous call has already expired, this
+// call will hit the website again
+let data = await trakt.queued.seasons.season({id: 'penny-dreadful', season: 2})
+console.log('API CALL COMPLETED: ' + data.length + ' "Penny Dreadful" episodes fetched'))
 ```
 
+You can still use `cached` normally if you need to make calls that shouldn't be queued.
+
+## Debugging
+
+If you enable debug mode...
+
+```js
+trakt.queued.enableDebug()
+```
+
+...you'll get a truckload of messages of very dubious usefulness.
 
 ## LICENSE
 
