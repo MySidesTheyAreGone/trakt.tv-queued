@@ -1,6 +1,12 @@
 const R = require('ramda')
 
-let queued = module.exports = {}
+class ShutdownError extends Error {
+  constructor () {
+    super('Canceled - shutting down')
+    this.name = 'ShutdownError'
+  }
+}
+
 let cached
 let Trakt
 
@@ -80,14 +86,19 @@ function reconfigure (options) {
   }
 }
 
-queued.enableDebug = function () {
+function shutdown () {
+  for (let job of queue) {
+    job.rej(new ShutdownError())
+  }
+  queue = []
+}
+
+function enableDebug () {
   debugEnabled = true
   return cached
 }
 
-queued.reconfigure = reconfigure
-
-queued._call = function (method, params) {
+function _call (method, params) {
   _debug('method: ' + method.url + ', params: ' + R.toString(params))
   if (config.cached === true && !R.isNil(cached)) {
     _debug('forwarding to trakt.tv-cached...')
@@ -95,6 +106,14 @@ queued._call = function (method, params) {
   } else {
     return enqueue(() => Trakt._call(method, params))
   }
+}
+
+let queued = module.exports = {
+  enableDebug,
+  reconfigure,
+  shutdown,
+  ShutdownError,
+  _call
 }
 
 queued.init = function (trakt, options) {
