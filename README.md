@@ -1,4 +1,6 @@
 # trakt.tv-queued
+[![NPM](https://nodei.co/npm/trakt.tv-queued.png?downloads=true&stars=true)](https://nodei.co/npm/trakt.tv-queued/)
+[![NPM](https://nodei.co/npm-dl/trakt.tv-queued.png?months=6)](https://nodei.co/npm/trakt.tv-queued/)
 
 By using this plugin you can forget about rate-limiting your requests. Simply set a `concurrency` and `delay` and the plugin will take care of everything.
 
