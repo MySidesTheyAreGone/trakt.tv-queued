@@ -7,7 +7,6 @@ class ShutdownError extends Error {
   }
 }
 
-let cached
 let Trakt
 
 let debugEnabled = false
@@ -81,9 +80,6 @@ function reconfigure (options) {
   config.concurrency = options.concurrency || 2
   config.delay = options.delay || 1
   config.cached = options.cached || false
-  if (config.cached && R.isNil(cached) && !R.isNil(Trakt.cached)) {
-    cached = Trakt.cached
-  }
 }
 
 function shutdown () {
@@ -95,14 +91,14 @@ function shutdown () {
 
 function enableDebug () {
   debugEnabled = true
-  return cached
+  return queued
 }
 
 function _call (method, params) {
   _debug('method: ' + method.url + ', params: ' + R.toString(params))
-  if (config.cached === true && !R.isNil(cached)) {
+  if (config.cached === true && !R.isNil(Trakt.cached)) {
     _debug('forwarding to trakt.tv-cached...')
-    return cached._call(method, R.assoc('enqueue', enqueue, params))
+    return Trakt.cached._call(method, R.assoc('enqueue', enqueue, params))
   } else {
     return enqueue(() => Trakt._call(method, params))
   }
