@@ -5,7 +5,7 @@
   "main": "./index.js",
   "repository": {
     "type": "git",
-    "url": "gitlab:MySidesTheyAreGone/trakt.tv-queued"
+    "url": "MySidesTheyAreGone/trakt.tv-queued"
   },
   "keywords": [
     "trakt.tv",
@@ -24,9 +24,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/MySidesTheyAreGone/trakt.tv-queued/issues"
+    "url": "https://github.com/MySidesTheyAreGone/trakt.tv-queued/issues"
   },
-  "homepage": "https://gitlab.com/MySidesTheyAreGone/trakt.tv-queued",
+  "homepage": "https://github.com/MySidesTheyAreGone/trakt.tv-queued",
   "maintainers": [
     {
       "name": "MySidesTheyAreGone",
