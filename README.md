@@ -1,4 +1,6 @@
 # trakt.tv-queued
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)    
+
 [![NPM](https://nodei.co/npm/trakt.tv-queued.png?downloads=true&stars=true)](https://nodei.co/npm/trakt.tv-queued/)
 [![NPM](https://nodei.co/npm-dl/trakt.tv-queued.png?months=6)](https://nodei.co/npm/trakt.tv-queued/)
 
