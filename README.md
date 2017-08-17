@@ -1,5 +1,6 @@
 # trakt.tv-queued
-[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)    
+
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
 [![NPM](https://nodei.co/npm/trakt.tv-queued.png?downloads=true&stars=true)](https://nodei.co/npm/trakt.tv-queued/)
 [![NPM](https://nodei.co/npm-dl/trakt.tv-queued.png?months=6)](https://nodei.co/npm/trakt.tv-queued/)
@@ -98,7 +99,7 @@ If you do this, any API call will hit the cache first; if the data is not cached
 trakt.queued.reconfigure({concurrency: 4, delay: 1, cached: false})
 ```
 
-The `ttl` parameter that `cached` expects will have the intended effect in any call you make via either `queued` or `cached`.
+The `system:ttl` parameter that `cached` expects will have the intended effect in any call you make via either `queued` or `cached`.
 
 ```js
 trakt.cached.setDefaultTTL(40)
@@ -111,7 +112,7 @@ data = await trakt.queued.seasons.season({id: 'game-of-thrones', season: 4})
 console.log('API CALL COMPLETED: ' + data.length + ' "Game of Thrones" episodes fetched'))
 
 // the following call will be queued and its result cached, but the TTL will be 0
-data = await trakt.queued.seasons.season({id: 'penny-dreadful', season: 2, ttl: 0})
+data = await trakt.queued.seasons.season({id: 'penny-dreadful', season: 2, system:ttl: 0})
 console.log('API CALL COMPLETED: ' + data.length + ' "Penny Dreadful" episodes fetched'))
 
 // since the data fetched with the previous call has already expired, this
