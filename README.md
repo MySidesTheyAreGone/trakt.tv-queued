@@ -1,4 +1,6 @@
 # trakt.tv-queued
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)    
+
 [![NPM](https://nodei.co/npm/trakt.tv-queued.png?downloads=true&stars=true)](https://nodei.co/npm/trakt.tv-queued/)
 [![NPM](https://nodei.co/npm-dl/trakt.tv-queued.png?months=6)](https://nodei.co/npm/trakt.tv-queued/)
 
@@ -105,16 +107,16 @@ console.log('API CALL COMPLETED: ' + data.length + ' "Game of Thrones" episodes 
 
 // the following call will complete almost immediately without going into the queue
 // because the data you need is already in the cache
-let data = await trakt.queued.seasons.season({id: 'game-of-thrones', season: 4})
+data = await trakt.queued.seasons.season({id: 'game-of-thrones', season: 4})
 console.log('API CALL COMPLETED: ' + data.length + ' "Game of Thrones" episodes fetched'))
 
 // the following call will be queued and its result cached, but the TTL will be 0
-let data = await trakt.queued.seasons.season({id: 'penny-dreadful', season: 2, ttl: 0})
+data = await trakt.queued.seasons.season({id: 'penny-dreadful', season: 2, ttl: 0})
 console.log('API CALL COMPLETED: ' + data.length + ' "Penny Dreadful" episodes fetched'))
 
 // since the data fetched with the previous call has already expired, this
 // call will hit the website again
-let data = await trakt.queued.seasons.season({id: 'penny-dreadful', season: 2})
+data = await trakt.queued.seasons.season({id: 'penny-dreadful', season: 2})
 console.log('API CALL COMPLETED: ' + data.length + ' "Penny Dreadful" episodes fetched'))
 ```
 
