@@ -98,7 +98,7 @@ function _call (method, params) {
   _debug('method: ' + method.url + ', params: ' + R.toString(params))
   if (config.cached === true && !R.isNil(Trakt.cached)) {
     _debug('forwarding to trakt.tv-cached...')
-    return Trakt.cached._call(method, R.assoc('enqueue', enqueue, params))
+    return Trakt.cached._call(method, R.assoc('system:enqueue', enqueue, params))
   } else {
     return enqueue(() => Trakt._call(method, params))
   }
