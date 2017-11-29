@@ -114,6 +114,8 @@ let queued = module.exports = {
 
 queued.init = function (trakt, options) {
   Trakt = trakt
+  queued._settings = trakt._settings
+  queued._debug = trakt._debug
   trakt._construct.apply(queued)
   reconfigure(options)
 }

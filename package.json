@@ -13,10 +13,10 @@
     "plugin"
   ],
   "dependencies": {
-    "ramda": "^0.24.1"
+    "ramda": "^0.25.0"
   },
   "devDependencies": {
-    "trakt.tv": "5.1.0"
+    "trakt.tv": "6.0.2"
   },
   "author": {
     "name": "MySidesTheyAreGone",
